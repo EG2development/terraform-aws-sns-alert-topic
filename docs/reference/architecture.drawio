@@ -1,0 +1,91 @@
+<mxfile host="Electron" agent="generate_shared_terraform_modules.py" version="24.7.17">
+  <diagram id="page-architecture" name="architecture">
+    <mxGraphModel dx="1400" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="c2" value="terraform-aws-sns-alert-topic — architecture" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=20;fontStyle=1;fontColor=#232F3E;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="1300" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="c3" value="An alert topic that CloudWatch alarms and, optionally, EventBridge rules publish to — encrypted with its own customer managed key by default." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#545B64;spacing=4;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="50" width="1354" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="c4" value="&lt;b&gt;Inputs&lt;/b&gt;&lt;br&gt;&lt;b&gt;name&lt;/b&gt; — required&lt;br&gt;create_kms_key = true&lt;br&gt;kms_master_key_id = null&lt;br&gt;kms_key_deletion_window_in_days = 30&lt;br&gt;allow_eventbridge_publish = false&lt;br&gt;subscriptions = {}&lt;br&gt;tags = {}" style="rounded=1;absoluteArcSize=1;arcSize=14;whiteSpace=wrap;html=1;fillColor=#EAF3FB;strokeColor=#147EBA;dashed=0;fontSize=10;fontColor=#232F3E;align=left;verticalAlign=top;spacing=6;spacingTop=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="100" width="280" height="129" as="geometry" />
+        </mxCell>
+        <mxCell id="c5" value="&lt;b&gt;Outputs&lt;/b&gt;&lt;br&gt;topic_arn&lt;br&gt;topic_name&lt;br&gt;kms_key_arn&lt;br&gt;subscription_arns" style="rounded=1;absoluteArcSize=1;arcSize=14;whiteSpace=wrap;html=1;fillColor=#EEF6E8;strokeColor=#7AA116;dashed=0;fontSize=10;fontColor=#232F3E;align=left;verticalAlign=top;spacing=6;spacingTop=1;" vertex="1" parent="1">
+          <mxGeometry x="1320" y="100" width="294" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="c6" value="&lt;b&gt;IAM the module creates&lt;/b&gt;&lt;br&gt;Key policy, with create_kms_key:&lt;br&gt;• AccountAdministration — the account root: kms:* (IAM policies decide)&lt;br&gt;• CloudWatchAlarmsUseKey — cloudwatch.amazonaws.com: kms:Decrypt and kms:GenerateDataKey*, when aws:SourceAccount is the caller's&lt;br&gt;• EventBridgeRulesUseKey — events.amazonaws.com: the same two actions, with no condition (AWS supports none); only with allow_eventbridge_publish&lt;br&gt;Topic policy: in the box on the left." style="rounded=1;absoluteArcSize=1;arcSize=14;whiteSpace=wrap;html=1;fillColor=#FDF2F4;strokeColor=#DD344C;dashed=0;fontSize=10;fontColor=#232F3E;align=left;verticalAlign=top;spacing=6;spacingTop=1;" vertex="1" parent="1">
+          <mxGeometry x="1320" y="202" width="294" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="c7" value="&lt;b&gt;Requirements&lt;/b&gt;&lt;br&gt;Terraform ≥ 1.9.0 · hashicorp/aws ≥ 6.0&lt;br&gt;No provider block: the caller's provider sets the account, the Region and default_tags." style="rounded=1;absoluteArcSize=1;arcSize=14;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#545B64;dashed=0;fontSize=10;fontColor=#232F3E;align=left;verticalAlign=top;spacing=6;spacingTop=1;" vertex="1" parent="1">
+          <mxGeometry x="1320" y="408" width="294" height="76" as="geometry" />
+        </mxCell>
+        <mxCell id="c8" value="Only when … — created only when the condition holds" style="rounded=1;absoluteArcSize=1;arcSize=14;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#879196;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontStyle=2;fontSize=10;fontColor=#232F3E;container=1;collapsible=0;pointerEvents=0;" vertex="1" parent="1">
+          <mxGeometry x="1320" y="500" width="294" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="c9" value="Grey — not created by the module: the caller's, or AWS's" style="rounded=1;absoluteArcSize=1;arcSize=14;whiteSpace=wrap;html=1;fillColor=#F1F3F3;strokeColor=#5A6C86;dashed=0;fontSize=10;fontColor=#232F3E;align=left;verticalAlign=top;spacing=6;spacingTop=1;" vertex="1" parent="1">
+          <mxGeometry x="1320" y="544" width="294" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="c10" value="Region (the caller's provider)" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=0;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_region;strokeColor=#00A4A6;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#147EBA;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="100" width="950" height="690" as="geometry" />
+        </mxCell>
+        <mxCell id="c11" value="&lt;b&gt;Caller's CloudWatch alarms&lt;/b&gt;&lt;br&gt;alarm_actions = [topic_arn]" style="rounded=1;absoluteArcSize=1;arcSize=14;whiteSpace=wrap;html=1;fillColor=#F1F3F3;strokeColor=#5A6C86;fontSize=11;fontColor=#232F3E;" vertex="1" parent="1">
+          <mxGeometry x="370" y="200" width="220" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="c12" value="&lt;b&gt;Caller's EventBridge rules&lt;/b&gt;&lt;br&gt;target = topic_arn; allowed when allow_eventbridge_publish" style="rounded=1;absoluteArcSize=1;arcSize=14;whiteSpace=wrap;html=1;fillColor=#F1F3F3;strokeColor=#5A6C86;fontSize=11;fontColor=#232F3E;" vertex="1" parent="1">
+          <mxGeometry x="370" y="330" width="220" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="c13" value="&lt;b&gt;aws_sns_topic.main&lt;/b&gt; · {name}&lt;br&gt;encrypted with the module's key,&lt;br&gt;or kms_master_key_id" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#E7157B;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=11;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.sns;verticalLabelPosition=top;verticalAlign=bottom;" vertex="1" parent="1">
+          <mxGeometry x="700" y="250" width="64" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="c14" value="sns:Publish" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#545B64;strokeWidth=1.2;fontSize=10;fontColor=#232F3E;labelBackgroundColor=#FFFFFF;jettySize=auto;orthogonalLoop=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.3;entryDx=0;entryDy=0;" edge="1" parent="1" source="c11" target="c13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c15" value="sns:Publish" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#545B64;strokeWidth=1.2;fontSize=10;fontColor=#232F3E;labelBackgroundColor=#FFFFFF;jettySize=auto;orthogonalLoop=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.8;entryDx=0;entryDy=0;" edge="1" parent="1" source="c12" target="c13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c16" value="aws_sns_topic_subscription.main[{key}]: one per subscriptions entry" style="rounded=1;absoluteArcSize=1;arcSize=14;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#E7157B;dashed=0;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontStyle=1;fontSize=10;fontColor=#232F3E;container=1;collapsible=0;pointerEvents=0;" vertex="1" parent="1">
+          <mxGeometry x="960" y="170" width="310" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="c17" value="email — pending until&lt;br&gt;the recipient confirms" style="outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#E7157B;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=11;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.email_notification;labelPosition=right;verticalLabelPosition=middle;align=left;verticalAlign=middle;spacingLeft=2;" vertex="1" parent="c16">
+          <mxGeometry x="30" y="50" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="c18" value="sqs — a queue" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#E7157B;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=11;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.sqs;labelPosition=right;verticalLabelPosition=middle;align=left;verticalAlign=middle;spacingLeft=2;" vertex="1" parent="c16">
+          <mxGeometry x="30" y="126" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="c19" value="lambda — a function" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=11;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;labelPosition=right;verticalLabelPosition=middle;align=left;verticalAlign=middle;spacingLeft=2;" vertex="1" parent="c16">
+          <mxGeometry x="30" y="196" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="c20" value="Also email-json, https, firehose (with subscription_role_arn), sms, application. Plain http is rejected." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#545B64;spacing=4;" vertex="1" parent="c16">
+          <mxGeometry x="15" y="250" width="285" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="c21" value="deliver" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#545B64;strokeWidth=1.2;fontSize=10;fontColor=#232F3E;labelBackgroundColor=#FFFFFF;jettySize=auto;orthogonalLoop=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.43;entryDx=0;entryDy=0;" edge="1" parent="1" source="c13" target="c16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c22" value="Only when create_kms_key = true (default)" style="rounded=1;absoluteArcSize=1;arcSize=14;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#879196;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontStyle=2;fontSize=10;fontColor=#232F3E;container=1;collapsible=0;pointerEvents=0;" vertex="1" parent="1">
+          <mxGeometry x="560" y="440" width="380" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="c23" value="&lt;b&gt;aws_kms_key.main&lt;/b&gt;&lt;br&gt;alias/{name}-sns&lt;br&gt;key rotation on&lt;br&gt;30-day deletion window" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#DD344C;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=11;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.key_management_service;labelPosition=right;verticalLabelPosition=middle;align=left;verticalAlign=middle;spacingLeft=2;" vertex="1" parent="c22">
+          <mxGeometry x="148" y="46" width="48" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="c24" value="encrypts" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#545B64;strokeWidth=1.2;fontSize=10;fontColor=#232F3E;labelBackgroundColor=#FFFFFF;jettySize=auto;orthogonalLoop=1;dashed=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="c23" target="c13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c25" value="Only when allow_eventbridge_publish = true" style="rounded=1;absoluteArcSize=1;arcSize=14;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#879196;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontStyle=2;fontSize=10;fontColor=#232F3E;container=1;collapsible=0;pointerEvents=0;" vertex="1" parent="1">
+          <mxGeometry x="370" y="600" width="570" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="c26" value="&lt;b&gt;aws_sns_topic_policy.main&lt;/b&gt; — replaces SNS's default policy&lt;br&gt;• AccountManagement — the account: manage, subscribe, publish (AWS:SourceOwner)&lt;br&gt;• CloudWatchAlarmsPublish — cloudwatch.amazonaws.com&lt;br&gt;• EventBridgeRulesPublish — events.amazonaws.com&lt;br&gt;the last two: sns:Publish, only when aws:SourceAccount is the caller's" style="outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#DD344C;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=11;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.permissions;labelPosition=right;verticalLabelPosition=middle;align=left;verticalAlign=middle;spacingLeft=2;" vertex="1" parent="c25">
+          <mxGeometry x="26" y="50" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="c27" value="Without the topic policy, SNS's default policy applies, and CloudWatch alarms in the same account can already publish." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#545B64;spacing=4;" vertex="1" parent="1">
+          <mxGeometry x="960" y="600" width="310" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="c28" value="Source: main.tf, kms.tf, variables.tf and outputs.tf in this repository, as of the version this diagram was drawn for. Edit architecture.drawio in draw.io and export architecture.png beside it (File › Export as › PNG)." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#545B64;spacing=4;fontSize=10;fontColor=#879196;" vertex="1" parent="1">
+          <mxGeometry x="40" y="802" width="1574" height="22" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
