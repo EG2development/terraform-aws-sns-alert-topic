@@ -1,4 +1,4 @@
-# Tutorial: deploy your first __MODULE__
+# Tutorial: deploy your first sns-alert-topic
 
 <!-- TEMPLATE: replace this page. A tutorial teaches by doing: deploy the basic
 call in a sandbox account, look at what was created, destroy it. Concrete
