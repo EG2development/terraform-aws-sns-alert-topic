@@ -1,17 +1,19 @@
-# Every output has a description. Output what callers need to wire other
-# resources to this module's: names, ARNs, IDs, URLs.
-
-output "name" {
-  description = "Name of the managed resource."
-  value       = var.name
+output "topic_arn" {
+  description = "ARN of the topic, for alarm_actions and ok_actions on CloudWatch alarms, EventBridge rule targets and IAM policies."
+  value       = aws_sns_topic.main.arn
 }
 
-output "tags" {
-  description = "Tags applied to every resource, including the generated Name tag."
-  value       = local.tags
+output "topic_name" {
+  description = "Name of the topic."
+  value       = aws_sns_topic.main.name
 }
 
-output "account_id" {
-  description = "AWS account the module was planned in. Placeholder: remove with the data source in main.tf."
-  value       = data.aws_caller_identity.current.account_id
+output "kms_key_arn" {
+  description = "Key that encrypts the topic: the ARN of the module's key, or kms_master_key_id exactly as given when you brought your own. Null when the topic is not encrypted. Grant publishers kms:GenerateDataKey* and kms:Decrypt on it."
+  value       = var.create_kms_key ? aws_kms_key.main[0].arn : var.kms_master_key_id
+}
+
+output "subscription_arns" {
+  description = "ARN of each subscription, keyed by the labels in subscriptions."
+  value       = { for label, subscription in aws_sns_topic_subscription.main : label => subscription.arn }
 }

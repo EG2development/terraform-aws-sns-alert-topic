@@ -1,18 +1,19 @@
-# The smallest useful call. Examples are complete root configurations: they
-# have a provider block and call the module from the working copy, so CI
-# validates the code in this repository.
+# The smallest useful call: a topic encrypted with a key the module creates,
+# and one email subscription. The address is a sensitive variable, so it stays
+# out of plan output. Examples call the module from the working copy so CI
+# validates this repository's code; a real caller pins a Git source
+# (README.md, "Usage").
 
 provider "aws" {
   region = var.region
 }
 
-module "example" {
-  # A real caller uses a pinned Git source instead; see README.md "Usage".
+module "alerts" {
   source = "../.."
 
   name = var.name
 
-  tags = {
-    Environment = "example"
+  subscriptions = {
+    oncall = { protocol = "email", endpoint = var.alert_email }
   }
 }
