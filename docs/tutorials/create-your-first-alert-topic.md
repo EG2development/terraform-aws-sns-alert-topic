@@ -7,7 +7,7 @@ hour; the test message is free.
 
 ## Before you start
 
-- Terraform 1.9 or later, the AWS CLI, and credentials for a sandbox AWS account
+- Terraform 1.16 or later, the AWS CLI, and credentials for a sandbox AWS account
   that may create SNS topics and subscriptions and KMS keys and aliases. An
   administrator role in a sandbox account has every permission this tutorial needs.
 - An email address you can read now.
@@ -20,7 +20,7 @@ Create an empty directory and a file `main.tf` in it:
 
 ```hcl
 terraform {
-  required_version = ">= 1.9.0"
+  required_version = ">= 1.16.0"
   required_providers {
     aws = {
       source  = "hashicorp/aws"
