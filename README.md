@@ -62,20 +62,20 @@ it), never to a branch. Run `terraform init` after changing `source`.
 ## Requirements
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | terraform | >= 1.16.0 |
 | aws | >= 6.0 |
 
 ## Providers
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | aws | >= 6.0 |
 
 ## Resources
 
 | Name | Type |
-| ---- | ---- |
+|------|------|
 | [aws_kms_alias.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_alias) | resource |
 | [aws_kms_key.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_key) | resource |
 | [aws_sns_topic.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic) | resource |
@@ -85,7 +85,7 @@ it), never to a branch. Run `terraform init` after changing `source`.
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-| ---- | ----------- | ---- | ------- | :------: |
+|------|-------------|------|---------|:--------:|
 | name | Name of the SNS topic, for example "payments-prod-alerts". It also names the module's KMS key alias, "alias/{name}-sns". Changing it replaces the topic and its subscriptions, and email recipients must confirm again. | `string` | n/a | yes |
 | allow\_eventbridge\_publish | Let EventBridge rules in this account publish to the topic. Adds a topic policy, which replaces SNS's default policy and restates the access of this account and its CloudWatch alarms, and an events.amazonaws.com statement in the module's key policy. Off by default. | `bool` | `false` | no |
 | create\_kms\_key | Create a customer managed KMS key for the topic, with a key policy that lets CloudWatch alarms (and EventBridge, with allow\_eventbridge\_publish) publish. On by default. Set it to false to use your own key in kms\_master\_key\_id; false with no kms\_master\_key\_id leaves the topic unencrypted. | `bool` | `true` | no |
@@ -97,7 +97,7 @@ it), never to a branch. Run `terraform init` after changing `source`.
 ## Outputs
 
 | Name | Description |
-| ---- | ----------- |
+|------|-------------|
 | kms\_key\_arn | Key that encrypts the topic: the ARN of the module's key, or kms\_master\_key\_id exactly as given when you brought your own. Null when the topic is not encrypted. Grant publishers kms:GenerateDataKey* and kms:Decrypt on it. |
 | subscription\_arns | ARN of each subscription, keyed by the labels in subscriptions. |
 | topic\_arn | ARN of the topic, for alarm\_actions and ok\_actions on CloudWatch alarms, EventBridge rule targets and IAM policies. |
@@ -118,9 +118,10 @@ it), never to a branch. Run `terraform init` after changing `source`.
 
 ## Security scanning
 
-Checkov runs on every pull request. No check is skipped:
-[`.github/workflows/ci.yml`](.github/workflows/ci.yml) passes an empty
-`checkov-skip-checks`. `CKV_AWS_26` (SNS topic encrypted) passes with the defaults.
+Checkov runs on every pull request via
+[Static Analysis](.github/workflows/workflow.yml). No AWS check is skipped in
+[`configs/checkov.yml`](configs/checkov.yml). `CKV_AWS_26` (SNS topic encrypted) passes
+with the defaults.
 
 The key policy uses `Resource = "*"`, which in a key policy means the key itself. It is
 written inline with `jsonencode`, so Checkov's IAM wildcard-resource checks
@@ -143,7 +144,8 @@ Semantic versions, tags `vMAJOR.MINOR.PATCH`, created by release-please from
 Conventional Commit pull-request titles. Patch: a fix that changes no plan. Minor: a
 new optional input, output or off-by-default resource. Major: anything that can
 change or replace an existing caller's resources, or raise a minimum version.
-Details: [the standard](https://github.com/EG2development/terraform-module-standards/blob/main/docs/standard.md).
+For the contribution and release checks, see [`CONTRIBUTING.md`](CONTRIBUTING.md)
+and [the release workflow](.github/workflows/release-please.yml).
 
 ## Contributing and ownership
 
