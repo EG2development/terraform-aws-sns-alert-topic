@@ -91,7 +91,7 @@ Publishing to the encrypted topic needs `sns:Publish` on the topic and
 
 | | Minimum | Why |
 | --- | --- | --- |
-| Terraform | 1.9.0 | Variable validations that refer to other variables |
+| Terraform | 1.16.0 | The floor shared by this family of modules |
 | `hashicorp/aws` | 6.0 | The current major version; nothing newer is needed |
 
 Inputs and outputs are listed in the [README](../../README.md#inputs).
