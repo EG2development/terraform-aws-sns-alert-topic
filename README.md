@@ -25,7 +25,7 @@ It deliberately does **not** manage:
 
 ```hcl
 module "alerts" {
-  source = "git::https://github.com/EG2development/terraform-aws-sns-alert-topic.git?ref=v1.0.0" # x-release-please-version
+  source = "git::https://github.com/EG2development/terraform-aws-sns-alert-topic.git?ref=v2.0.0" # x-release-please-version
 
   name = "payments-prod-alerts"
 
