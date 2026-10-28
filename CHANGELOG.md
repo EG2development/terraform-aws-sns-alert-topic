@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://github.com/EG2development/terraform-aws-sns-alert-topic/compare/v1.0.0...v2.0.0) (2026-10-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* Terraform 1.16.0 or newer is required. Callers on an older Terraform must upgrade Terraform before moving to this release.
+
+### Features
+
+* require Terraform 1.16 or newer ([#3](https://github.com/EG2development/terraform-aws-sns-alert-topic/issues/3)) ([ab37f1e](https://github.com/EG2development/terraform-aws-sns-alert-topic/commit/ab37f1e094ccb32704be202442dea0b9cf1aa817))
+
 ## 1.0.0 (2026-10-17)
 
 
